@@ -14,14 +14,14 @@ pipeline{
 		echo "code compilation is completed"
 	  }
 	}
-	stage(code test){
+	stage('code test'){
 	  steps{
 	    echo "Code testing is started"
 		sh 'mvn clean test'
 		echo "Code test is completed"
 	  }
 	}
-	stage(code package){
+	stage('code package'){
 	  steps{
 	    echo "code packaging is started"
 		sh 'mvn clean package'
