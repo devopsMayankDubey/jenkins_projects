@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class mycodeForMaven {
     @GetMapping("/mycodeForMaven")
     public String getData() {
-        return "T is just mycode  by webhook again";
+        return " is just mycode  by webhook again";
     }
 }
