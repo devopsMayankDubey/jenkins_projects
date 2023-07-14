@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class mycodeForMaven {
     @GetMapping("/mycodeForMaven")
     public String getData() {
-        return "This ise by  again";
+        return "This  by  again";
     }
 }
