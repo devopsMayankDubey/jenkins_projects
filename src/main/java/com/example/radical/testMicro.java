@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class testMicro {
     @GetMapping("/testMicro")
     public String getData() {
-        return "Just  ......";
+        return "  ......";
     }
 }
