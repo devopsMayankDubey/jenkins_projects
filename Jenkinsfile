@@ -34,7 +34,7 @@ pipeline{
       steps {
         echo 'Starting Building Docker Image'
         sh 'docker build -t mayank0501/jenkinspro .'
-        sh 'docker build -t jenkinspro .'
+        sh 'docker build -t jenkins_projects .'
         echo 'Completed  Building Docker Image'
       }
     }
