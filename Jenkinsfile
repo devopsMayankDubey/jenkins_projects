@@ -57,7 +57,7 @@ pipeline{
              withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
              sh 'docker login http://3.110.62.181:8085/repository/jenkins_projects/ -u admin -p ${PASSWORD}'
              echo "Push Docker Image to Nexus : In Progress"
-             sh 'docker tag jenkins_projects 3.110.62.181:8085/jenkinspro:latest'
+             sh 'docker tag jenkins_projects 3.110.62.181:8085/jenkins_projects:latest'
              sh 'docker push 43.204.229.125:8085/jenkins_projects'
              echo "Push Docker Image to Nexus : Completed"
              }
