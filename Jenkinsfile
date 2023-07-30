@@ -30,6 +30,14 @@ pipeline{
 	  echo 'Code Package Done'
 	  }
 	}
+	stage('Building & Tag Docker Image') {
+      steps {
+        echo 'Starting Building Docker Image'
+        sh 'docker build -t mayank0501/jenkinspro .'
+        sh 'docker build -t jenkinspro .'
+        echo 'Completed  Building Docker Image'
+      }
+    }
 	stage(' Docker push to Docker Hub') {
       steps {
         script {
