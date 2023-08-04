@@ -41,12 +41,11 @@ pipeline{
 	stage(' Docker push to Docker Hub') {
       steps {
         script {
-          withCredentials([string(credentialsId: 'dockerhubCred', variable: 'dockerhubCred')]){
-          sh 'docker login docker.io -u mayank0501 -p ${dockerhubCred}'
+          withCredentials([string(credentialsId: 'dockerhubcred', variable: 'dockerhubcred')]){
+          sh 'docker login docker.io -u mayank0501 -p ${dockerhubcred}'
           echo "Push Docker Image to DockerHub : In Progress"
-          sh 'docker push mayank0501/jenkinspro:latest'
+          sh 'docker push mayank0501/jenkinspro:v1.0'
           echo "Push Docker Image to DockerHub : In Progress"
-          sh 'whoami'
           }
         }
       }
@@ -55,7 +54,7 @@ pipeline{
        steps {
           script {
              withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-             sh 'docker login http://3.110.62.181:8085/repository/jenkins_projects/ -u admin -p ${PASSWORD}'
+             sh 'docker login http://3.110.31.112:8085/repository/radicaldevops/ -u admin -p ${PASSWORD}'
              echo "Push Docker Image to Nexus : In Progress"
              sh 'docker tag jenkins_projects 3.110.62.181:8085/jenkins_projects:latest'
              sh 'docker push 3.110.62.181:8085/jenkins_projects'
