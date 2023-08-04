@@ -33,7 +33,7 @@ pipeline{
 	stage('Building & Tag Docker Image') {
       steps {
         echo 'Starting Building Docker Image'
-        sh 'docker build -t mayank0501/jenkinspro .'
+        sh 'docker build -t mayank0501/jenkinspro:v1.0 .'
         sh 'docker build -t jenkins_projects .'
         echo 'Completed  Building Docker Image'
       }
