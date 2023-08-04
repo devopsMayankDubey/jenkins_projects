@@ -57,7 +57,7 @@ pipeline{
              sh 'docker login http://3.110.31.112:8085/repository/radicaldevops/ -u admin -p ${PASSWORD}'
              echo "Push Docker Image to Nexus : In Progress"
              sh 'docker tag jenkins_projects 3.110.62.181:8085/jenkins_projects:latest'
-             sh 'docker push 3.110.62.181:8085/jenkins_projects'
+             sh 'docker push 3.110.31.112:8085/jenkins_projects'
              echo "Push Docker Image to Nexus : Completed"
              }
           }
