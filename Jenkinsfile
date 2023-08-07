@@ -16,6 +16,20 @@ pipeline{
 	  echo 'Done compiling code'
 	  }
 	}
+    stage('Sonarqube Code Quality') {
+       environment {
+          scannerHome = tool 'SonarQubeScanner'
+       }
+       steps {
+         withSonarQubeEnv('sonar-server') {
+            sh "${scannerHome}/bin/sonar-scanner"
+            sh 'mvn sonar:sonar'
+         }
+         timeout(time: 10, unit: 'MINUTES') {
+            waitForQualityGate abortPipeline: true
+         }
+       }
+    }
 	stage('Code Test'){
 	  steps{
 	  echo 'Code Test starting'
