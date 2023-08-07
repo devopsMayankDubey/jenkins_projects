@@ -33,31 +33,18 @@ pipeline{
 	stage('Building & Tag Docker Image') {
       steps {
         echo 'Starting Building Docker Image'
-        sh 'docker build -t mayank0501/jenkinspro:v1.0 .'
         sh 'docker build -t jenkins_projects .'
         echo 'Completed  Building Docker Image'
-      }
-    }
-	stage(' Docker push to Docker Hub') {
-      steps {
-        script {
-          withCredentials([string(credentialsId: 'dockerhubcred', variable: 'dockerhubcred')]){
-          sh 'docker login docker.io -u mayank0501 -p ${dockerhubcred}'
-          echo "Push Docker Image to DockerHub : In Progress"
-          sh 'docker push mayank0501/jenkinspro:v1.0'
-          echo "Push Docker Image to DockerHub : In Progress"
-          }
-        }
       }
     }
 	stage('Upload the docker Image to Nexus') {
        steps {
           script {
              withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-             sh 'docker login http://3.110.31.112:8085/repository/radicaldevops/ -u admin -p ${PASSWORD}'
+             sh 'http://13.212.80.112:8085/repository/radical/ -u admin -p ${PASSWORD}'
              echo "Push Docker Image to Nexus : In Progress"
-             sh 'docker tag jenkins_projects 3.110.31.112:8085/jenkins_projects:latest'
-             sh 'docker push 3.110.31.112:8085/jenkins_projects:latest'
+             sh 'docker tag jenkins_projects 13.212.80.112:8085/jenkins_projects:latest'
+             sh 'docker push 13.212.80.112:8085/jenkins_projects:latest'
              echo "Push Docker Image to Nexus : Completed"
              }
           }
