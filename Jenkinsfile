@@ -41,7 +41,7 @@ pipeline{
        steps {
           script {
              withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-             sh 'http://13.212.80.112:8085/repository/radical/ -u admin -p ${PASSWORD}'
+             sh 'docker login http://13.212.80.112:8085/repository/radical/ -u admin -p ${PASSWORD}'
              echo "Push Docker Image to Nexus : In Progress"
              sh 'docker tag jenkins_projects 13.212.80.112:8085/jenkins_projects:latest'
              sh 'docker push 13.212.80.112:8085/jenkins_projects:latest'
