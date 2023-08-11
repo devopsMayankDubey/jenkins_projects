@@ -18,7 +18,7 @@ pipeline{
 	}
     stage('Sonarqube Code Quality') {
        environment {
-          scannerHome = tool 'SonarQubeScanner'
+          scannerHome = tool 'qube'
        }
        steps {
          withSonarQubeEnv('sonar-server') {
@@ -47,18 +47,46 @@ pipeline{
 	stage('Building & Tag Docker Image') {
       steps {
         echo 'Starting Building Docker Image'
+        sh 'docker build -t mayank0501/radicalpro .'
         sh 'docker build -t jenkins_projects .'
         echo 'Completed  Building Docker Image'
+      }
+    }
+    stage(' Docker push to Docker Hub') {
+      steps {
+        script {
+          withCredentials([string(credentialsId: 'dockercred', variable: 'dockercred')]){
+            sh 'docker login docker.io -u mayank0501 -p ${dockerhubCred}'
+            echo "Push Docker Image to DockerHub : In Progress"
+            sh 'docker push mayank0501/radicalpro:latest'
+            echo "Push Docker Image to DockerHub : In Progress"
+          }
+        }
+      }
+    }
+    stage(' Docker Image Push to Amazon ECR') {
+      steps {
+        script {
+           withDockerRegistry([credentialsId:'ecr:ap-south-1:ecr-cred', url:"https://244063396946.dkr.ecr.ap-south-1.amazonaws.com"]){
+              echo "List the docker images present in local"
+              echo "Tagging the Docker Image: In Progress"
+              sh 'docker tag jenkins_projects:latest 244063396946.dkr.ecr.ap-south-1.amazonaws.com/ecrjenkins:latest'
+              echo "Tagging the Docker Image: Completed"
+              echo "Push Docker Image to ECR : In Progress"
+              sh 'docker push 244063396946.dkr.ecr.ap-south-1.amazonaws.com/ecrjenkins:latest'
+              echo "Push Docker Image to ECR : Completed"
+           }
+        }
       }
     }
 	stage('Upload the docker Image to Nexus') {
        steps {
           script {
              withCredentials([usernamePassword(credentialsId: 'nexuscred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-             sh 'docker login http://13.212.80.112:8085/repository/radical/ -u admin -p ${PASSWORD}'
+             sh 'docker login http://13.127.63.109:8085/repository/radical/ -u admin -p ${PASSWORD}'
              echo "Push Docker Image to Nexus : In Progress"
-             sh 'docker tag jenkins_projects 13.212.80.112:8085/jenkins_projects:latest'
-             sh 'docker push 13.212.80.112:8085/jenkins_projects:latest'
+             sh 'docker tag jenkins_projects 13.127.63.109:8085/jenkins_projects:latest'
+             sh 'docker push 13.127.63.109:8085/jenkins_projects:latest'
              echo "Push Docker Image to Nexus : Completed"
              }
           }
